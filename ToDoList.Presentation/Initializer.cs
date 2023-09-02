@@ -1,6 +1,8 @@
 ﻿using ToDoList.DAL.Interfaces;
 using ToDoList.DAL.Repositories;
 using ToDoList.Domain.Entity;
+using ToDoList.Service.Implementations;
+using ToDoList.Service.Interfaces;
 
 namespace ToDoList.Presentation
 {
@@ -13,7 +15,7 @@ namespace ToDoList.Presentation
 
         public static void InitializeServices(this IServiceCollection services)
         {
-
+            services.AddScoped<ITaskService, TaskService>();
         }
     }
 }
