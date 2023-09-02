@@ -1,9 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using ToDoList.DAL;
 using ToDoList.Presentation;
 
 WebApplicationBuilder applicationBuilder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 applicationBuilder.Services.AddControllersWithViews();
+
+applicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseNpgsql(applicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 applicationBuilder.Services.InitializeRepositories();
 applicationBuilder.Services.InitializeServices();

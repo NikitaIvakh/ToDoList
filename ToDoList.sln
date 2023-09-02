@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{521CA2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Domain", "ToDoList.Domain\ToDoList.Domain.csproj", "{5B5DC15C-E836-424D-9F86-0BAB08D4B7E7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{3392083C-3D25-4B6B-840B-233E39C0E3FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.DAL", "ToDoList.DAL\ToDoList.DAL.csproj", "{BF5569D6-3904-4118-AC82-B0564A5AF91C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +27,17 @@ Global
 		{5B5DC15C-E836-424D-9F86-0BAB08D4B7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B5DC15C-E836-424D-9F86-0BAB08D4B7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B5DC15C-E836-424D-9F86-0BAB08D4B7E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF5569D6-3904-4118-AC82-B0564A5AF91C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF5569D6-3904-4118-AC82-B0564A5AF91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF5569D6-3904-4118-AC82-B0564A5AF91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF5569D6-3904-4118-AC82-B0564A5AF91C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5B5DC15C-E836-424D-9F86-0BAB08D4B7E7} = {521CA2F1-857C-4651-921D-7C9F943FB485}
+		{BF5569D6-3904-4118-AC82-B0564A5AF91C} = {3392083C-3D25-4B6B-840B-233E39C0E3FE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ECCA2654-7802-4EF1-87DF-A713DE289909}
