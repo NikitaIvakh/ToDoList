@@ -5,5 +5,6 @@
         Ok = 200,
 
         InvalidServerError = 500,
+        TaskAlreadyExists = 501,
     }
 }

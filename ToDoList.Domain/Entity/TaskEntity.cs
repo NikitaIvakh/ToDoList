@@ -10,6 +10,10 @@ namespace ToDoList.Domain.Entity
 
         public string Description { get; set; }
 
+        public bool IsCompleted { get; set; }
+
         public Priority Priority { get; set; }
+
+        public DateTime DateCreated { get; set; }
     }
 }
