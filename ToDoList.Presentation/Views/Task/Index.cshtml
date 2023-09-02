@@ -16,3 +16,33 @@
     </div>
     <button class="btn btn-primary" id="createTask">Create a task</button>
 </form>
+
+@section Scripts
+    {
+    <script>
+        $('#createTask').on('click', function () {
+            $.ajax({
+                type: 'Post',
+                url: '@Url.Action("Create")',
+                data: $('#createTaskForm').serialize(),
+                success: function (response) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: response.description,
+                        icon: 'success',
+                        confirmButtonText: 'Good'
+                    })
+                },
+
+                error: function (response) {
+                    Swal.fire({
+                        title: 'Information',
+                        text: response.responseJSON.description,
+                        icon: 'error',
+                        confirmButtonText: 'Good'
+                    })
+                }
+            })
+        })
+    </script>
+}
