@@ -32,5 +32,8 @@ webApplication.UseRouting();
 
 webApplication.UseAuthorization();
 
-webApplication.MapDefaultControllerRoute();
+webApplication.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Task}/{action=Index}/{id?}");
+
 webApplication.Run();
