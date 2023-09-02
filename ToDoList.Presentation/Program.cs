@@ -12,6 +12,8 @@ applicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(applicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 applicationBuilder.Services.InitializeRepositories();
 applicationBuilder.Services.InitializeServices();
 

@@ -26,7 +26,7 @@ namespace ToDoList.Service.Implementations
             {
                 _logger.LogInformation($"Request to create a task: {createTaskViewModel.Name}");
                 var task = await _taskEntityRepository.GetAllElements()
-                    .Where(key => key.DateCreated == DateTime.Today)
+                    .Where(key => key.DateCreated.Date == DateTime.Today)
                     .FirstOrDefaultAsync(key => key.Name == createTaskViewModel.Name);
 
                 if (task is not null)
@@ -42,6 +42,7 @@ namespace ToDoList.Service.Implementations
                 {
                     Name = createTaskViewModel.Name,
                     Description = createTaskViewModel.Description,
+                    IsCompleted = false,
                     Priority = createTaskViewModel.Priority,
                     DateCreated = DateTime.Now,
                 };
