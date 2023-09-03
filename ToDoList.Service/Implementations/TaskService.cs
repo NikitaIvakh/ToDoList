@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ToDoList.DAL.Interfaces;
 using ToDoList.Domain.Entity;
 using ToDoList.Domain.Enum;
+using ToDoList.Domain.Expansion;
 using ToDoList.Domain.Response;
 using ToDoList.Domain.ViewModels.TaskEntity;
 using ToDoList.Service.Interfaces;
@@ -61,6 +62,47 @@ namespace ToDoList.Service.Implementations
             {
                 _logger.LogError(ex, $"[TaskService.CreateTaskAsync] : {ex.Message}");
                 return new BaseResponse<TaskEntity>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InvalidServerError,
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasks()
+        {
+            try
+            {
+                var tasks = _taskEntityRepository.GetAllElements().Select(key => new TaskViewModel
+                {
+                    Id = key.Id,
+                    Name = key.Name,
+                    Description = key.Description,
+                    Priority = key.Priority.GetDisplayName(),
+                    IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
+                    DateCreated = key.DateCreated.ToLongDateString(),
+                });
+
+                if (tasks is null)
+                {
+                    return new BaseResponse<IEnumerable<TaskViewModel>>
+                    {
+                        Description = $"There are no tasks",
+                        StatusCode = StatusCode.ThereAreNoTasks,
+                    };
+                };
+
+                return new BaseResponse<IEnumerable<TaskViewModel>>
+                {
+                    Data = tasks,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[TaskService.GetAllTasks] : {ex.Message}");
+                return new BaseResponse<IEnumerable<TaskViewModel>>
                 {
                     Description = ex.Message,
                     StatusCode = StatusCode.InvalidServerError,

@@ -4,7 +4,7 @@ namespace ToDoList.Domain.ViewModels.TaskEntity
 {
     public class TaskViewModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Display(Name = "Title")]
         public string Name { get; set; }
