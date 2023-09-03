@@ -69,7 +69,7 @@ namespace ToDoList.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasks()
+        public IBaseResponse<IEnumerable<TaskViewModel>> GetAllTasks()
         {
             try
             {
@@ -83,7 +83,7 @@ namespace ToDoList.Service.Implementations
                     DateCreated = key.DateCreated.ToLongDateString(),
                 });
 
-                if (tasks is null)
+                if (tasks is null || !tasks.Any())
                 {
                     return new BaseResponse<IEnumerable<TaskViewModel>>
                     {
@@ -92,6 +92,7 @@ namespace ToDoList.Service.Implementations
                     };
                 };
 
+                _logger.LogInformation($"[TaskService.GetAllTasks] elements received: {tasks.Count()}");
                 return new BaseResponse<IEnumerable<TaskViewModel>>
                 {
                     Data = tasks,
