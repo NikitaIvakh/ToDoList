@@ -8,6 +8,8 @@ namespace ToDoList.Service.Interfaces
     {
         Task<IBaseResponse<TaskEntity>> CreateTaskAsync(CreateTaskViewModel createTaskViewModel);
 
-        Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasks();
+        Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasksAsync();
+
+        Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetCompletedTasksAsync();
     }
 }

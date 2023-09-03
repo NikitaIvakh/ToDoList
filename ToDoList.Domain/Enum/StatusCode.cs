@@ -7,5 +7,6 @@
         InvalidServerError = 500,
         TaskAlreadyExists = 501,
         ThereAreNoTasks = 502,
+        NoTaskIsCompleted = 503,
     }
 }
