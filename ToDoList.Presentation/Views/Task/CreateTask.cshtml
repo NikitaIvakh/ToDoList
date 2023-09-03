@@ -78,7 +78,7 @@
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("Create", "Task")',
+                url: '@Url.Action("CreateTask", "Task")',
                 data: $('#createTaskForm').serialize(),
                 success: function (response) {
                     Swal.fire({

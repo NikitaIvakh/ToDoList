@@ -34,6 +34,6 @@ webApplication.UseAuthorization();
 
 webApplication.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Task}/{action=Index}/{id?}");
+    pattern: "{controller=Task}/{action=CreateTask}/{id?}");
 
 webApplication.Run();

@@ -21,13 +21,13 @@ namespace ToDoList.Presentation.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult CreateTask()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateTaskViewModel createTaskViewModel)
+        public async Task<IActionResult> CreateTask(CreateTaskViewModel createTaskViewModel)
         {
             var response = await _taskService.CreateTaskAsync(createTaskViewModel);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
