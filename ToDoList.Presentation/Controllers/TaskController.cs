@@ -28,5 +28,12 @@ namespace ToDoList.Presentation.Controllers
 
             return BadRequest(new { description = response.Description });
         }
+
+        [HttpPost]
+        public IActionResult TaskHandler()
+        {
+            var response = _taskService.GetAllTasks();
+            return Json(new { data = response.Data });
+        }
     }
 }
