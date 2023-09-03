@@ -45,7 +45,7 @@ namespace ToDoList.Service.Implementations
                     Description = createTaskViewModel.Description,
                     IsCompleted = false,
                     Priority = createTaskViewModel.Priority,
-                    DateCreated = DateTime.Now,
+                    DateCreated = DateTime.UtcNow,
                 };
 
                 await _taskEntityRepository.CreateAsync(task);
@@ -69,7 +69,7 @@ namespace ToDoList.Service.Implementations
             }
         }
 
-        public IBaseResponse<IEnumerable<TaskViewModel>> GetAllTasks()
+        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasks()
         {
             try
             {
@@ -83,7 +83,7 @@ namespace ToDoList.Service.Implementations
                     DateCreated = key.DateCreated.ToLongDateString(),
                 });
 
-                if (tasks is null || !tasks.Any())
+                if (tasks is null)
                 {
                     return new BaseResponse<IEnumerable<TaskViewModel>>
                     {

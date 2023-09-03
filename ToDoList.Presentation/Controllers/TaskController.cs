@@ -30,9 +30,9 @@ namespace ToDoList.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult TaskHandler()
+        public async Task<IActionResult> TaskHandler()
         {
-            var response = _taskService.GetAllTasks();
+            var response = await _taskService.GetAllTasks();
             return Json(new { data = response.Data });
         }
     }
