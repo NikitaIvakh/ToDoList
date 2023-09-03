@@ -16,7 +16,14 @@ namespace ToDoList.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> TaskHandler()
         {
-            var response = await _taskService.GetAllTasks();
+            var response = await _taskService.GetAllTasksAsync();
+            return Json(new { data = response.Data });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCompletedTasks()
+        {
+            var response = await _taskService.GetCompletedTasksAsync();
             return Json(new { data = response.Data });
         }
 
@@ -35,6 +42,5 @@ namespace ToDoList.Presentation.Controllers
 
             return BadRequest(new { description = response.Description });
         }
-
     }
 }
