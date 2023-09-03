@@ -19,10 +19,57 @@
     <button id="createTask" class="btn btn-primary">Create task</button>
 </form>
 
+<table class="table table-dark table-hover" id="tableId">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Task priority</th>
+            <th>Description</th>
+            <th>Readiness</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
 @section Scripts
     {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+        let taskTable = $('tableId').Datatable({
+            serverSide: true,
+            searching: false,
+            paging: false,
+            sorting: false,
+
+            ajax: {
+                url: '@Url.Action("TaskHandler")',
+                method: 'Post',
+            },
+
+            colums: {
+                { data: 'name' },
+                { data: 'priority' },
+                { data: 'description' },
+                { data: 'readiness' },
+                {
+                    data: null,
+                    sortable: false,
+                    render: function (data, type) {
+                        return '<button class="btn btn-success btn-sm center-block">Complete the task</button>'
+                    }
+                },
+            },
+
+            createRow: function(nRow, data) {
+                for (var i = 0; i < taskTable.colums().header().lenght - 1; i++) {
+                     $('td', nRow).eq(i).css('cursor', 'pointer')
+                }
+            }
+        })
+
         $('#createTask').on('click', function (e) {
             e.preventDefault();
             $.ajax({
