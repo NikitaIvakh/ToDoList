@@ -13,6 +13,13 @@ namespace ToDoList.Presentation.Controllers
             _taskService = taskService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> TaskHandler()
+        {
+            var response = await _taskService.GetAllTasks();
+            return Json(new { data = response.Data });
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -29,11 +36,5 @@ namespace ToDoList.Presentation.Controllers
             return BadRequest(new { description = response.Description });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> TaskHandler()
-        {
-            var response = await _taskService.GetAllTasks();
-            return Json(new { data = response.Data });
-        }
     }
 }
