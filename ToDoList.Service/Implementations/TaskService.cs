@@ -111,5 +111,46 @@ namespace ToDoList.Service.Implementations
                 };
             }
         }
+
+        public async Task<IBaseResponse<TaskViewModel>> GetTaskAsync(int id)
+        {
+            try
+            {
+                var task = await _taskEntityRepository.GetAllElements().Select(key => new TaskViewModel
+                {
+                    Id = key.Id,
+                    Name = key.Name,
+                    Description = key.Description,
+                    IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
+                    Priority = key.Priority.GetDisplayName(),
+                    DateCreated = key.DateCreated.ToLongDateString(),
+                }).FirstOrDefaultAsync(key => key.Id == id);
+
+                if (task is null)
+                {
+                    return new BaseResponse<TaskViewModel>
+                    {
+                        Description = "Task not found",
+                        StatusCode = StatusCode.TaskNotFound,
+                    };
+                }
+
+                return new BaseResponse<TaskViewModel>
+                {
+                    Data = task,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[TaskService.GetTaskAsync] : {ex.Message}");
+                return new BaseResponse<TaskViewModel>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InvalidServerError,
+                };
+            }
+        }
     }
 }

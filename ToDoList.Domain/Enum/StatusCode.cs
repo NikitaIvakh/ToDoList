@@ -8,5 +8,6 @@
         TaskAlreadyExists = 501,
         ThereAreNoTasks = 502,
         NoTaskIsCompleted = 503,
+        TaskNotFound = 504,
     }
 }
