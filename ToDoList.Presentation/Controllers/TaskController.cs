@@ -42,5 +42,15 @@ namespace ToDoList.Presentation.Controllers
 
             return BadRequest(new { description = response.Description });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EndTask(int id)
+        {
+            var response = await _taskService.EndTaskAsync(id);
+            if (response.StatusCode == Domain.Enum.StatusCode.Ok)
+                return Ok(new { description = response.Description });
+
+            return BadRequest(new { description = response.Description });
+        }
     }
 }
