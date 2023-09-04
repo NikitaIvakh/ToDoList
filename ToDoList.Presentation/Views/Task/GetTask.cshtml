@@ -6,17 +6,17 @@
     <div class="row">
         <div class="form-group col-md-6">
             <label class="col-form-label" asp-for="@Model.Name"></label>
-            <input class="form-control" type="text" asp-for="@Model.Name" />
+            <input class="form-control" type="text" asp-for="@Model.Name" disabled="disabled" />
         </div>
         <div class="form-group col-md-6">
             <label class="col-form-label" asp-for="@Model.Priority"></label>
-            <select class="form-select mb-3" asp-for="@Model.Priority" asp-items="Html.GetEnumSelectList<Priority>()" id="prioritySearch"></select>
+            <input class="form-control" type="text" asp-for="@Model.Priority" disabled="disabled" />
         </div>
     </div>
     <div class="row">
         <div class="form-group col-md-12">
             <label class="col-form-label" asp-for="@Model.IsCompleted"></label>
-            <input class="form-control" type="text" asp-for="@Model.IsCompleted" />
+            <input class="form-control" type="text" asp-for="@Model.IsCompleted" disabled="disabled" />
         </div>
     </div>
     <div class="row">
@@ -28,7 +28,31 @@
     <div class="row">
         <div class="form-group col-md-12">
             <label class="col-form-label" asp-for="@Model.Description"></label>
-            <textarea class="form-control" type="text" asp-for="@Model.Description"></textarea>
+            <textarea class="form-control" type="text" asp-for="@Model.Description" disabled="disabled"></textarea>
         </div>
     </div>
 </form>
+
+<script src="~/lib/select2/js/select2.full.min.js" asp-append-version="true"></script>
+<script>
+    $('#TaskPriorityId').select2({
+        placeholder: "Select the type",
+        minimumInputLength: 0,
+        allowClear: true,
+        ajax: {
+            type: "POST",
+            url: "@Url.Action("GetPrioritry", "Task")",
+            dataType: "json",
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (val, index) {
+                        return {
+                            id: index,
+                            text: val
+                        };
+                    }),
+                };
+            }
+        }
+    });
+</script>
