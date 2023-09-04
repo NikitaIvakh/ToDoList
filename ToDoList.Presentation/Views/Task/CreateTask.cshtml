@@ -68,6 +68,14 @@
             ],
 
             createRow: function(nRow, data) {
+
+                var handlerEdit = function () {
+                    openModal({
+                        url: '@Url.Action("GetTask", "Task")',
+                        data: data.id
+                    })
+                }
+
                 for (var i = i; i < taskTable.columns().header().length - 1; i++) {
                      $('td', nRow).eq(i).css('cursor', 'pointer')
                 }
