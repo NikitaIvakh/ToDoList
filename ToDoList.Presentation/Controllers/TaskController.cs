@@ -20,6 +20,7 @@ namespace ToDoList.Presentation.Controllers
             return Json(new { data = response.Data });
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetTask(int id)
         {
             var response = await _taskService.GetTaskAsync(id);
