@@ -111,50 +111,5 @@ namespace ToDoList.Service.Implementations
                 };
             }
         }
-
-        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetCompletedTasksAsync()
-        {
-            try
-            {
-                var tasksTrue = await _taskEntityRepository.GetAllElements()
-                    .Where(key => key.IsCompleted)
-                    .Where(key => key.DateCreated.Date == DateTime.Today)
-                    .Select(key => new TaskViewModel
-                    {
-                        Id = key.Id,
-                        Name = key.Name,
-                        Description = key.Description,
-                        Priority = key.Priority.GetDisplayName(),
-                        IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
-                        DateCreated = DateTime.Now.ToLongDateString(),
-                    }).ToListAsync();
-
-                if (tasksTrue is null || !tasksTrue.Any())
-                {
-                    return new BaseResponse<IEnumerable<TaskViewModel>>
-                    {
-                        Description = "No task is completed",
-                        StatusCode = StatusCode.NoTaskIsCompleted,
-                    };
-                }
-
-                _logger.LogInformation($"[TaskService.GetCompletedTasksAsync] elements received: {tasksTrue.Count}");
-                return new BaseResponse<IEnumerable<TaskViewModel>>
-                {
-                    Data = tasksTrue,
-                    StatusCode = StatusCode.Ok,
-                };
-            }
-
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"[TaskService.GetCompletedTasks]: {ex.Message}");
-                return new BaseResponse<IEnumerable<TaskViewModel>>
-                {
-                    Description = ex.Message,
-                    StatusCode = StatusCode.InvalidServerError,
-                };
-            }
-        }
     }
 }

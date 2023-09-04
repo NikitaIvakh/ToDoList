@@ -52,32 +52,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/modal.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("GetCompletedTasks", "Task")',
-                success: function (data) {
-                    const urlElement = $('#completedListTasks');
-
-                    for (var i = 0; i < data.data.length; i++) {
-                        const task = data.data[i];
-                        urlElement.append
-                        (
-                            `<li class="list-group-item d-flex justify-content-between" style="background-color: #affabf">
-                                <div>
-                                    <h6 class="my-0"> Title: ${ task.name }</h6> 
-                                    <small class= "text-muted"> Description: ${ task.description }<small>
-                                </div>
-                            </li>`
-                        )
-                    }
-                }
-            })
-        })
-    </script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
