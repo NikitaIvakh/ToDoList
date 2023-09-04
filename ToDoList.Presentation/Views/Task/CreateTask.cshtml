@@ -34,7 +34,7 @@
 
 @section Scripts
     {
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js" asp-append-version="true"></script>
     <script>
 
         const swalWithButtons = Swal.mixin({
@@ -51,13 +51,13 @@
             paging: false,
             sorting: false,
             columnDefs: [
-                { ordertable: false, targets: '_all' }
+                { orderable: false, targets: '_all' }
             ],
 
             ajax: {
-                url: '@Url.Action("TaskHandler", "Task")',
+                url: "@Url.Action("TaskHandler")",
                 method: 'POST',
-                data: {}
+                data: {},
             },
 
             columns: [
@@ -69,18 +69,15 @@
                     data: null,
                     sortable: false,
                     render: function (data, type) {
-                        return '<button class="btn btn-success btn-sm center-block">Complete the task</button>'
+                        return '<button class="btn btn-success btn-sm center-block">Complete the task</button>';
                     }
-                },
+                }
             ],
 
-            createRow: function (nRow, data) {
+            createdRow: function (nRow, data) {
 
                 var handlerEdit = function () {
-                    openModal({
-                        url: '@Url.Action("GetTask", "Task")',
-                        data: data.id
-                    })
+                    openModal({ url: '@Url.Action("GetTask", "Task")', data: data.id })
                 }
 
                 var handlerComplete = function () {
@@ -88,12 +85,12 @@
                         title: 'Are you sure?',
                         icon: 'warning',
                         confirmButtonText: 'Yes',
-                        reverseButtons: true,
+                        reverseButtons: true
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: 'POST',
-                                url: '@Url.Action("EndTask", "Task")',
+                                url: '@Url.Action("EndTask")',
                                 data: { id: data.id },
 
                                 success: function (response) {
@@ -104,7 +101,7 @@
                                         confirmButtonText: 'Good'
                                     })
 
-                                    taskTable.draw();
+                                    dataTable.draw();
                                 },
 
                                 error: function (response) {
@@ -132,7 +129,7 @@
 
                 $('td button', nRow).on('click', handlerComplete);
             }
-        })
+        });
 
         $('#createTask').on('click', function (e) {
             e.preventDefault();
