@@ -37,16 +37,24 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
 
+        const swalWithButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success'
+            },
+
+            buttonStyling: false,
+        })
+
         let taskTable = $('#tableId').DataTable({
             serverSide: true,
             searching: false,
             paging: false,
             sorting: false,
             columnDefs: [
-            {
-                ordertable: false,
-                _targets: '_all'
-            }],
+                {
+                    ordertable: false,
+                    _targets: '_all'
+                }],
 
             ajax: {
                 url: '@Url.Action("TaskHandler")',
@@ -67,7 +75,7 @@
                 },
             ],
 
-            createRow: function(nRow, data) {
+            createRow: function (nRow, data) {
 
                 var handlerEdit = function () {
                     openModal({
@@ -76,7 +84,23 @@
                     })
                 }
 
-                for (var i = i; i < taskTable.columns().header().length - 1; i++) {
+                var handlerComplete = function () {
+                    swalWithButtons.fire({
+                        title: 'Are you sure?',
+                        icon: 'waring',
+                        confirmButtons: true,
+                        reverseButtons: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@Url.Action("EndTask", "Task")'
+                            })
+                        }
+                    })
+                }
+
+                for (var i = 0; i < taskTable.columns().header().length - 1; i++) {
                     $('td', nRow).eq(i).css('cursor', 'pointer');
 
                     $('td', nRow).eq(i).on('click', handlerEdit);
