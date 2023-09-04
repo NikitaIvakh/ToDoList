@@ -9,5 +9,6 @@
         ThereAreNoTasks = 502,
         NoTaskIsCompleted = 503,
         TaskNotFound = 504,
+        PriorityNotFound = 505,
     }
 }

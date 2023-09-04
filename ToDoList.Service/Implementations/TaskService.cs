@@ -189,5 +189,37 @@ namespace ToDoList.Service.Implementations
                 };
             }
         }
+
+        public IBaseResponse<IDictionary<int, string>> GetPrioritry()
+        {
+            try
+            {
+                var priority = ((Priority[])Enum.GetValues(typeof(Priority))).ToDictionary(key => (int)key, value => value.GetDisplayName());
+                if (priority is null)
+                {
+                    return new BaseResponse<IDictionary<int, string>>
+                    {
+                        Description = $"Priority not found",
+                        StatusCode = StatusCode.PriorityNotFound,
+                    };
+                }
+
+                return new BaseResponse<IDictionary<int, string>>
+                {
+                    Data = priority,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[TaskService.GetTypes]: {ex.Message}");
+                return new BaseResponse<IDictionary<int, string>>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InvalidServerError,
+                };
+            }
+        }
     }
 }

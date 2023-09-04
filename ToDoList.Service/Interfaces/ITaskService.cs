@@ -13,5 +13,7 @@ namespace ToDoList.Service.Interfaces
         Task<IBaseResponse<TaskViewModel>> GetTaskAsync(int id);
 
         Task<IBaseResponse<bool>> EndTaskAsync(int id);
+
+        IBaseResponse<IDictionary<int, string>> GetPrioritry();
     }
 }
