@@ -11,5 +11,7 @@ namespace ToDoList.Service.Interfaces
         Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasksAsync();
 
         Task<IBaseResponse<TaskViewModel>> GetTaskAsync(int id);
+
+        Task<IBaseResponse<bool>> EndTaskAsync(int id);
     }
 }

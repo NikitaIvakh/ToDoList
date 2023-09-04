@@ -152,5 +152,42 @@ namespace ToDoList.Service.Implementations
                 };
             }
         }
+
+        public async Task<IBaseResponse<bool>> EndTaskAsync(int id)
+        {
+            try
+            {
+                var task = await _taskEntityRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == id);
+                if (task is null)
+                {
+                    return new BaseResponse<bool>
+                    {
+                        Data = false,
+                        Description = "Task not found",
+                        StatusCode = StatusCode.TaskNotFound,
+                    };
+                }
+
+                task.IsCompleted = true;
+                await _taskEntityRepository.UpdateAsync(task);
+
+                return new BaseResponse<bool>
+                {
+                    Data = true,
+                    Description = "The task was successfully deleted",
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[TaskService.EndTaskAsync]: {ex.Message}");
+                return new BaseResponse<bool>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InvalidServerError,
+                };
+            }
+        }
     }
 }
