@@ -52,5 +52,12 @@ namespace ToDoList.Presentation.Controllers
 
             return BadRequest(new { description = response.Description });
         }
+
+        [HttpPost]
+        public JsonResult GetPrioritry()
+        {
+            var response = _taskService.GetPrioritry();
+            return Json(response.Data);
+        }
     }
 }
