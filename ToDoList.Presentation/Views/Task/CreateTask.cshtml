@@ -42,7 +42,7 @@
                 confirmButton: 'btn btn-success'
             },
 
-            buttonStyling: false,
+            buttonsStyling: false
         })
 
         let taskTable = $('#tableId').DataTable({
@@ -51,14 +51,13 @@
             paging: false,
             sorting: false,
             columnDefs: [
-                {
-                    ordertable: false,
-                    _targets: '_all'
-                }],
+                { ordertable: false, targets: '_all' }
+            ],
 
             ajax: {
-                url: '@Url.Action("TaskHandler")',
+                url: '@Url.Action("TaskHandler", "Task")',
                 method: 'POST',
+                data: {}
             },
 
             columns: [
@@ -87,24 +86,51 @@
                 var handlerComplete = function () {
                     swalWithButtons.fire({
                         title: 'Are you sure?',
-                        icon: 'waring',
-                        confirmButtons: true,
+                        icon: 'warning',
+                        confirmButtonText: 'Yes',
                         reverseButtons: true,
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: 'POST',
-                                url: '@Url.Action("EndTask", "Task")'
+                                url: '@Url.Action("EndTask", "Task")',
+                                data: { id: data.id },
+
+                                success: function (response) {
+                                    Swal.fire({
+                                        title: 'Information',
+                                        text: response.description,
+                                        icon: 'success',
+                                        confirmButtonText: 'Good'
+                                    })
+
+                                    taskTable.draw();
+                                },
+
+                                error: function (response) {
+                                    Swal.fire({
+                                        title: 'Information',
+                                        text: response.responseJSON.description,
+                                        icon: 'error',
+                                        confirmButtonText: 'Good'
+                                    })
+                                }
                             })
                         }
                     })
                 }
 
                 for (var i = 0; i < taskTable.columns().header().length - 1; i++) {
-                    $('td', nRow).eq(i).css('cursor', 'pointer');
+                    if (data.IsCompleted === 'Task completed')
+                        $('td', nRow).eq(i).css('cursor', 'pointer');
+
+                    else
+                        $('td', nRow).eq(i).css('cursor', 'pointer');
 
                     $('td', nRow).eq(i).on('click', handlerEdit);
                 }
+
+                $('td button', nRow).on('click', handlerComplete);
             }
         })
 

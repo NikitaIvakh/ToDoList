@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using ToDoList.DAL.Interfaces;
@@ -116,16 +117,7 @@ namespace ToDoList.Service.Implementations
         {
             try
             {
-                var task = await _taskEntityRepository.GetAllElements().Select(key => new TaskViewModel
-                {
-                    Id = key.Id,
-                    Name = key.Name,
-                    Description = key.Description,
-                    IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
-                    Priority = key.Priority.GetDisplayName(),
-                    DateCreated = key.DateCreated.ToLongDateString(),
-                }).FirstOrDefaultAsync(key => key.Id == id);
-
+                var task = await _taskEntityRepository.GetAllElements().FirstOrDefaultAsync(key => key.Id == id);
                 if (task is null)
                 {
                     return new BaseResponse<TaskViewModel>
@@ -135,9 +127,19 @@ namespace ToDoList.Service.Implementations
                     };
                 }
 
+                var data = new TaskViewModel
+                {
+                    Id = task.Id,
+                    Name = task.Name,
+                    IsCompleted = task.IsCompleted == true ? "Task completed" : "Task not completed",
+                    Description = task.Description,
+                    Priority = task.Priority.GetDisplayName(),
+                    DateCreated = task.DateCreated.ToLongDateString(),
+                };
+
                 return new BaseResponse<TaskViewModel>
                 {
-                    Data = task,
+                    Data = data,
                     StatusCode = StatusCode.Ok,
                 };
             }
