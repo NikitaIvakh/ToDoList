@@ -26,7 +26,7 @@
     </div>
     <div class="form-group col-md-6">
         <label class="col-form-label">Priority </label>
-        <select class="form-control mb-3" id="prioritySearch" asp-items="@Html.GetEnumSelectList<Priority>()"></select>
+        <select class="form-select mb-3" id="prioritySearch" asp-items="@Html.GetEnumSelectList<Priority>()"></select>
     </div>
 </div>
 <br />
@@ -66,7 +66,7 @@
             ],
 
             ajax: {
-                url: "@Url.Action("TaskHandler")",
+                url: '@Url.Action("TaskHandler")',
                 method: 'POST',
                 data: model,
             },
@@ -82,7 +82,7 @@
                     render: function (data, type) {
                         return '<button class="btn btn-success btn-sm center-block">Complete the task</button>';
                     }
-                }
+                },
             ],
 
             createdRow: function (nRow, data) {
@@ -138,7 +138,7 @@
                     $('td', nRow).eq(i).on('click', handlerEdit);
                 }
 
-                $('td button', nRow).on('click', handlerComplete);
+                $('td button', nRow).on('click', handlerComplete); 
             }
         });
 

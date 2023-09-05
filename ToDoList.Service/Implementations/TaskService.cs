@@ -77,6 +77,7 @@ namespace ToDoList.Service.Implementations
                 var tasks = await _taskEntityRepository.GetAllElements()
                     .WhereIf(!string.IsNullOrWhiteSpace(taskFilter.Name), Key => Key.Name == taskFilter.Name)
                     .WhereIf(taskFilter.Priority.HasValue, Key => Key.Priority == taskFilter.Priority)
+                    .Where(key => !key.IsCompleted)
                     .Select(key => new TaskViewModel
                     {
                         Id = key.Id,
@@ -165,7 +166,6 @@ namespace ToDoList.Service.Implementations
                 {
                     return new BaseResponse<bool>
                     {
-                        Data = false,
                         Description = "Task not found",
                         StatusCode = StatusCode.TaskNotFound,
                     };
@@ -176,8 +176,7 @@ namespace ToDoList.Service.Implementations
 
                 return new BaseResponse<bool>
                 {
-                    Data = true,
-                    Description = "The task was successfully deleted",
+                    Description = "The task was successfully completed",
                     StatusCode = StatusCode.Ok,
                 };
             }
@@ -219,7 +218,7 @@ namespace ToDoList.Service.Implementations
                     };
                 }
 
-                _logger.LogError($"[TaskService.GetCompletedTaskAsync]  elements received: {task.Count}");
+                _logger.LogError($"[TaskService.GetCompletedTaskAsync] elements received: {task.Count}");
                 return new BaseResponse<IEnumerable<TaskViewModel>>
                 {
                     Data = task,
