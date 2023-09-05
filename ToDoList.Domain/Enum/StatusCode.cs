@@ -10,5 +10,6 @@
         NoTaskIsCompleted = 503,
         TaskNotFound = 504,
         PriorityNotFound = 505,
+        TaskNotCompleted = 400,
     }
 }

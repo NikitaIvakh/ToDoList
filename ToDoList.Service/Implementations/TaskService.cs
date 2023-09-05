@@ -193,6 +193,51 @@ namespace ToDoList.Service.Implementations
             }
         }
 
+        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetCompletedTaskAsync()
+        {
+            try
+            {
+                var task = await _taskEntityRepository.GetAllElements()
+                    .Where(key => key.IsCompleted)
+                    .Where(key => key.DateCreated.Date == DateTime.Today)
+                    .Select(key => new TaskViewModel
+                    {
+                        Id = key.Id,
+                        Name = key.Name,
+                        Description = key.Description,
+                        IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
+                        Priority = key.Priority.GetDisplayName(),
+                        DateCreated = key.DateCreated.ToLongDateString(),
+                    }).ToListAsync();
+
+                if (task is null)
+                {
+                    return new BaseResponse<IEnumerable<TaskViewModel>>
+                    {
+                        Description = "Not a single task has been completed yet",
+                        StatusCode = StatusCode.TaskNotCompleted,
+                    };
+                }
+
+                _logger.LogError($"[TaskService.GetCompletedTaskAsync]  elements received: {task.Count}");
+                return new BaseResponse<IEnumerable<TaskViewModel>>
+                {
+                    Data = task,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[TaskService.GetCompletedTaskAsync]");
+                return new BaseResponse<IEnumerable<TaskViewModel>>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InvalidServerError,
+                };
+            }
+        }
+
         public IBaseResponse<IDictionary<int, string>> GetPrioritry()
         {
             try
