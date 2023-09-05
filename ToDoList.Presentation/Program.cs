@@ -5,7 +5,7 @@ using ToDoList.Presentation;
 WebApplicationBuilder applicationBuilder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-applicationBuilder.Services.AddControllersWithViews();
+applicationBuilder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 applicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
