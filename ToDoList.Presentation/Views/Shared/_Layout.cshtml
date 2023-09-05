@@ -72,3 +72,12 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(document.ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetCompletedTask", "Task")'
+        })
+    }))
+</script>
