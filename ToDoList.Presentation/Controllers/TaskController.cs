@@ -17,7 +17,7 @@ namespace ToDoList.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> TaskHandler(TaskFilter taskFilter)
         {
-            var response = await _taskService.GetAllTasksAsync();
+            var response = await _taskService.GetAllTasksAsync(taskFilter);
             return Json(new { data = response.Data });
         }
 
