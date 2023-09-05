@@ -6,6 +6,7 @@ using ToDoList.DAL.Interfaces;
 using ToDoList.Domain.Entity;
 using ToDoList.Domain.Enum;
 using ToDoList.Domain.Expansion;
+using ToDoList.Domain.Filters.Task;
 using ToDoList.Domain.Response;
 using ToDoList.Domain.ViewModels.TaskEntity;
 using ToDoList.Service.Interfaces;
@@ -71,7 +72,7 @@ namespace ToDoList.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasksAsync()
+        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasksAsync(TaskFilter taskFilter)
         {
             try
             {

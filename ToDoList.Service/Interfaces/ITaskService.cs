@@ -1,4 +1,5 @@
 ﻿using ToDoList.Domain.Entity;
+using ToDoList.Domain.Filters.Task;
 using ToDoList.Domain.Response;
 using ToDoList.Domain.ViewModels.TaskEntity;
 
@@ -8,7 +9,7 @@ namespace ToDoList.Service.Interfaces
     {
         Task<IBaseResponse<TaskEntity>> CreateTaskAsync(CreateTaskViewModel createTaskViewModel);
 
-        Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasksAsync();
+        Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasksAsync(TaskFilter taskFilter);
 
         Task<IBaseResponse<TaskViewModel>> GetTaskAsync(int id);
 
