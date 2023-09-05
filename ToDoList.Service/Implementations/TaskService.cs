@@ -196,20 +196,20 @@ namespace ToDoList.Service.Implementations
         {
             try
             {
-                var task = await _taskEntityRepository.GetAllElements()
+                var tasks = await _taskEntityRepository.GetAllElements()
                     .Where(key => key.IsCompleted)
-                    .Where(key => key.DateCreated.Date == DateTime.Today)
+                    .Where(key => key.DateCreated.Date == DateTime.UtcNow.Date)
                     .Select(key => new TaskViewModel
                     {
                         Id = key.Id,
                         Name = key.Name,
                         Description = key.Description,
-                        IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
                         Priority = key.Priority.GetDisplayName(),
+                        IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
                         DateCreated = key.DateCreated.ToLongDateString(),
                     }).ToListAsync();
 
-                if (task is null)
+                if (tasks is null)
                 {
                     return new BaseResponse<IEnumerable<TaskViewModel>>
                     {
@@ -218,17 +218,17 @@ namespace ToDoList.Service.Implementations
                     };
                 }
 
-                _logger.LogError($"[TaskService.GetCompletedTaskAsync] elements received: {task.Count}");
+                _logger.LogError($"[TaskService.GetCompletedTaskAsync] elements received: {tasks.Count}");
                 return new BaseResponse<IEnumerable<TaskViewModel>>
                 {
-                    Data = task,
+                    Data = tasks,
                     StatusCode = StatusCode.Ok,
                 };
             }
 
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"[TaskService.GetCompletedTaskAsync]");
+                _logger.LogError(ex, $"[TaskService.GetCompletedTaskAsync]: {ex.Message}");
                 return new BaseResponse<IEnumerable<TaskViewModel>>
                 {
                     Description = ex.Message,

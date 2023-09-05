@@ -34,6 +34,7 @@
                 </div>
             </div>
             <div class="col-md-8 order-md-1">
+                <h4 class="text-muted mb-3">Creating a task</h4>
                 @RenderBody()
             </div>
         </div>
@@ -45,9 +46,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Information</h5>
                 </div>
-                <div class="modal-body">
-                    @*   Information*@
-                </div>
+                <div class="modal-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">To close</button>
                     <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
@@ -68,20 +67,21 @@
                 type: 'GET',
                 url: '@Url.Action("GetCompletedTask", "Task")',
                 success: function (data) {
-                    const urlElement = $('#completedListTask');
+                    const ulElement = $('#completedListTask');
 
                     for (var i = 0; i < data.data.length; i++) {
                         const task = data.data[i];
-                        urlElement.append(
+                        ulElement.append(
                             `<li class="list-group-item d-flex justify-content-between" style="background-color: #affabf">
                                 <div>
                                     <h6 class="my-0">Title: ${task.name}</h6>
                                     <small class="text-muted">Description: ${task.description}</small>
                                 </div>
-                            </li>`
+                            </li>
+                            `
                         )
                     }
-                }
+                }  
             })
         })
     </script>
