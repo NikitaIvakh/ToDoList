@@ -29,6 +29,13 @@ namespace ToDoList.Presentation.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetCompletedTask()
+        {
+            var response = await _taskService.GetCompletedTaskAsync();
+            return Json(new { data = response.Data });
+        }
+
+        [HttpGet]
         public IActionResult CreateTask()
         {
             return View();
