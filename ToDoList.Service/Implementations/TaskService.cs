@@ -76,7 +76,10 @@ namespace ToDoList.Service.Implementations
         {
             try
             {
-                var tasks = _taskEntityRepository.GetAllElements().Select(key => new TaskViewModel
+                var tasks = await _taskEntityRepository.GetAllElements()
+                    .WhereIf(!string.IsNullOrWhiteSpace(taskFilter.Name), Key => Key.Name == taskFilter.Name)
+                    .WhereIf(taskFilter.Priority.HasValue, Key => Key.Priority == taskFilter.Priority)
+                    .Select(key => new TaskViewModel
                 {
                     Id = key.Id,
                     Name = key.Name,
@@ -84,7 +87,7 @@ namespace ToDoList.Service.Implementations
                     Priority = key.Priority.GetDisplayName(),
                     IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
                     DateCreated = key.DateCreated.ToLongDateString(),
-                });
+                }).ToListAsync();
 
                 if (tasks is null)
                 {
