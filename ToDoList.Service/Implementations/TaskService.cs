@@ -130,6 +130,7 @@ namespace ToDoList.Service.Implementations
                     Priority = key.Priority.GetDisplayName(),
                     DateCreated = key.DateCreated.ToLongDateString(),
                 }).FirstOrDefaultAsync(key => key.Id == id);
+
                 if (task is null)
                 {
                     return new BaseResponse<TaskViewModel>
