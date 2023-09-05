@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using ToDoList.DAL.Interfaces;
 using ToDoList.Domain.Entity;
 using ToDoList.Domain.Enum;
