@@ -80,14 +80,14 @@ namespace ToDoList.Service.Implementations
                     .WhereIf(!string.IsNullOrWhiteSpace(taskFilter.Name), Key => Key.Name == taskFilter.Name)
                     .WhereIf(taskFilter.Priority.HasValue, Key => Key.Priority == taskFilter.Priority)
                     .Select(key => new TaskViewModel
-                {
-                    Id = key.Id,
-                    Name = key.Name,
-                    Description = key.Description,
-                    Priority = key.Priority.GetDisplayName(),
-                    IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
-                    DateCreated = key.DateCreated.ToLongDateString(),
-                }).ToListAsync();
+                    {
+                        Id = key.Id,
+                        Name = key.Name,
+                        Description = key.Description,
+                        Priority = key.Priority.GetDisplayName(),
+                        IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
+                        DateCreated = key.DateCreated.ToLongDateString(),
+                    }).ToListAsync();
 
                 if (tasks is null)
                 {
