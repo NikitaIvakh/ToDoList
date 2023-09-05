@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ToDoList.Domain.Filters.Task;
 using ToDoList.Domain.ViewModels.TaskEntity;
 using ToDoList.Service.Interfaces;
 
@@ -14,7 +15,7 @@ namespace ToDoList.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TaskHandler()
+        public async Task<IActionResult> TaskHandler(TaskFilter taskFilter)
         {
             var response = await _taskService.GetAllTasksAsync();
             return Json(new { data = response.Data });
