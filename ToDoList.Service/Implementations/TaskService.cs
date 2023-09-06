@@ -26,7 +26,9 @@ namespace ToDoList.Service.Implementations
         {
             try
             {
+                createTaskViewModel.Validate();
                 _logger.LogInformation($"Request to create a task: {createTaskViewModel.Name}");
+
                 var task = await _taskEntityRepository.GetAllElements()
                     .Where(key => key.DateCreated.Date == DateTime.Today)
                     .FirstOrDefaultAsync(key => key.Name == createTaskViewModel.Name);
@@ -64,7 +66,7 @@ namespace ToDoList.Service.Implementations
                 _logger.LogError(ex, $"[TaskService.CreateTaskAsync] : {ex.Message}");
                 return new BaseResponse<TaskEntity>
                 {
-                    Description = ex.Message,
+                    Description = $"{ex.Message}",
                     StatusCode = StatusCode.InvalidServerError,
                 };
             }
