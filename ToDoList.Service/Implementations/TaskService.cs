@@ -211,7 +211,7 @@ namespace ToDoList.Service.Implementations
                         DateCreated = key.DateCreated.ToLongDateString(),
                     }).ToListAsync();
 
-                if (tasks is null)
+                if (tasks is null || !tasks.Any())
                 {
                     return new BaseResponse<IEnumerable<TaskViewModel>>
                     {
