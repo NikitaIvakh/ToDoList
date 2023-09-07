@@ -1,8 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using ToDoList.DAL;
 using ToDoList.Presentation;
 
 WebApplicationBuilder applicationBuilder = WebApplication.CreateBuilder(args);
+
+applicationBuilder.Logging.ClearProviders();
+applicationBuilder.Logging.SetMinimumLevel(LogLevel.Trace);
+applicationBuilder.Host.UseNLog();
 
 // Add services to the container.
 applicationBuilder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
