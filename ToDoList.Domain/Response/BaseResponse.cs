@@ -13,10 +13,10 @@ namespace ToDoList.Domain.Response
 
     public interface IBaseResponse<Type>
     {
-        string Description { get; set; }
+        string Description { get; }
 
-        StatusCode StatusCode { get; set; }
+        StatusCode StatusCode { get; }
 
-        Type Data { get; set; }
+        Type Data { get; }
     }
 }
