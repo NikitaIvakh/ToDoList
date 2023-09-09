@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/ToDoList.Presentation.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-light">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -27,14 +27,21 @@
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Completed tasks</span>
+                    <span class="badge badge-secondary badge-pill text-muted" id="countOfCompletedTasks"></span>
                 </h4>
                 <ul class="list-group mb-3" id="completedListTask"></ul>
-                <div class="card col-md-12">
-                    <button type="submit" class="btn btn-secondary" id="calculateTask">Finish the day</button>
+                <form>
+                    <div class="card col-md-12">
+                        <button type="submit" class="btn btn-secondary">Finish the day</button>
+                    </div>
+                </form>
+                <br />
+                <div class="form-group">
+                    <label>Notes for yourself</label>
+                    <textarea class="form-control" rows="3"></textarea>
                 </div>
             </div>
             <div class="col-md-8 order-md-1">
-                <h4 class="text-muted mb-3">Creating a task</h4>
                 @RenderBody()
             </div>
         </div>
@@ -81,7 +88,7 @@
                             `
                         )
                     }
-                }  
+                }
             })
         })
     </script>
