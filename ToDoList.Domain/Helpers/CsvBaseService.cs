@@ -12,7 +12,7 @@ namespace ToDoList.Domain.Helpers
 
         public CsvBaseService()
         {
-            _csvConfiguration = GetConfiguration();
+            _csvConfiguration = CsvBaseService<Type>.GetConfiguration();
         }
 
         public byte[] UploadFile(IEnumerable data)
@@ -21,7 +21,7 @@ namespace ToDoList.Domain.Helpers
             using var streamWriter = new StreamWriter(memoryStream);
             using var csvWriter = new CsvWriter(streamWriter, _csvConfiguration);
 
-            csvWriter.WriteRecord(data);
+            csvWriter.WriteRecords(data);
             streamWriter.Flush();
 
             return memoryStream.ToArray();
