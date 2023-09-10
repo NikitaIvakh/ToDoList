@@ -238,7 +238,7 @@ namespace ToDoList.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> CalculateCpmpletedTasksAsync()
+        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> CalculateCompletedTasksAsync()
         {
             try
             {

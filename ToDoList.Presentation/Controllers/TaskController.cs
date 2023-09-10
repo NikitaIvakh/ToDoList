@@ -64,9 +64,9 @@ namespace ToDoList.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CalculateCpmpletedTasks()
+        public async Task<IActionResult> CalculateCompletedTasks()
         {
-            var response = await _taskService.CalculateCpmpletedTasksAsync();
+            var response = await _taskService.CalculateCompletedTasksAsync();
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
             {
                 var csvService = new CsvBaseService<IEnumerable<TaskViewModel>>();
