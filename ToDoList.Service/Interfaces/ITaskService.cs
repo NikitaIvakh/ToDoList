@@ -15,7 +15,7 @@ namespace ToDoList.Service.Interfaces
 
         Task<IBaseResponse<bool>> EndTaskAsync(int id);
 
-        Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetCompletedTaskAsync();
+        Task<IBaseResponse<IEnumerable<GetCompletedTasksViewModel>>> GetCompletedTaskAsync();
 
         IBaseResponse<IDictionary<int, string>> GetPrioritry();
     }
