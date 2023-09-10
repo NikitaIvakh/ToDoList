@@ -207,8 +207,6 @@ namespace ToDoList.Service.Implementations
                         Name = key.Name,
                         Description = key.Description,
                         Priority = key.Priority.GetDisplayName(),
-                        IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
-                        DateCreated = key.DateCreated.ToLongDateString(),
                     }).ToListAsync();
 
                 if (tasks is null || !tasks.Any())
