@@ -194,14 +194,14 @@ namespace ToDoList.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetCompletedTaskAsync()
+        public async Task<IBaseResponse<IEnumerable<GetCompletedTasksViewModel>>> GetCompletedTaskAsync()
         {
             try
             {
                 var tasks = await _taskEntityRepository.GetAllElements()
                     .Where(key => key.IsCompleted)
                     .Where(key => key.DateCreated.Date == DateTime.UtcNow.Date)
-                    .Select(key => new TaskViewModel
+                    .Select(key => new GetCompletedTasksViewModel
                     {
                         Id = key.Id,
                         Name = key.Name,
@@ -211,7 +211,7 @@ namespace ToDoList.Service.Implementations
 
                 if (tasks is null || !tasks.Any())
                 {
-                    return new BaseResponse<IEnumerable<TaskViewModel>>
+                    return new BaseResponse<IEnumerable<GetCompletedTasksViewModel>>
                     {
                         Description = "Not a single task has been completed yet",
                         StatusCode = StatusCode.TaskNotCompleted,
@@ -219,7 +219,7 @@ namespace ToDoList.Service.Implementations
                 }
 
                 _logger.LogError($"[TaskService.GetCompletedTaskAsync] elements received: {tasks.Count}");
-                return new BaseResponse<IEnumerable<TaskViewModel>>
+                return new BaseResponse<IEnumerable<GetCompletedTasksViewModel>>
                 {
                     Data = tasks,
                     StatusCode = StatusCode.Ok,
@@ -229,7 +229,7 @@ namespace ToDoList.Service.Implementations
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"[TaskService.GetCompletedTaskAsync]: {ex.Message}");
-                return new BaseResponse<IEnumerable<TaskViewModel>>
+                return new BaseResponse<IEnumerable<GetCompletedTasksViewModel>>
                 {
                     Description = ex.Message,
                     StatusCode = StatusCode.InvalidServerError,
