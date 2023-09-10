@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using ToDoList.Domain.Filters.Task;
+using ToDoList.Domain.Helpers;
 using ToDoList.Domain.ViewModels.TaskEntity;
 using ToDoList.Service.Interfaces;
 
@@ -57,6 +59,21 @@ namespace ToDoList.Presentation.Controllers
             var response = await _taskService.EndTaskAsync(id);
             if (response.StatusCode == Domain.Enum.StatusCode.Ok)
                 return Ok(new { description = response.Description });
+
+            return BadRequest(new { description = response.Description });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CalculateCpmpletedTasks()
+        {
+            var response = await _taskService.CalculateCpmpletedTasksAsync();
+            if (response.StatusCode == Domain.Enum.StatusCode.Ok)
+            {
+                var csvService = new CsvBaseService<IEnumerable<TaskViewModel>>();
+                var uploadFile = csvService.UploadFile(response.Data);
+
+                return File(uploadFile, "text/csv", $"Statistics for {DateTime.Now.ToString(CultureInfo.InvariantCulture)}.csv");
+            }
 
             return BadRequest(new { description = response.Description });
         }
