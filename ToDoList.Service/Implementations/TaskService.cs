@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using ToDoList.DAL.Interfaces;
 using ToDoList.Domain.Entity;
 using ToDoList.Domain.Enum;
@@ -90,7 +91,7 @@ namespace ToDoList.Service.Implementations
                         DateCreated = key.DateCreated.ToLongDateString(),
                     }).ToListAsync();
 
-                if (tasks is null)
+                if (tasks is null || !tasks.Any())
                 {
                     return new BaseResponse<IEnumerable<TaskViewModel>>
                     {
@@ -99,7 +100,7 @@ namespace ToDoList.Service.Implementations
                     };
                 };
 
-                _logger.LogInformation($"[TaskService.GetAllTasks] elements received: {tasks.Count()}");
+                _logger.LogInformation($"[TaskService.GetAllTasks] elements received: {tasks.Count}");
                 return new BaseResponse<IEnumerable<TaskViewModel>>
                 {
                     Data = tasks,
@@ -230,6 +231,50 @@ namespace ToDoList.Service.Implementations
             {
                 _logger.LogError(ex, $"[TaskService.GetCompletedTaskAsync]: {ex.Message}");
                 return new BaseResponse<IEnumerable<GetCompletedTasksViewModel>>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InvalidServerError,
+                };
+            }
+        }
+
+        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> CalculateCpmpletedTasksAsync()
+        {
+            try
+            {
+                var tasks = await _taskEntityRepository.GetAllElements()
+                    .Where(key => key.IsCompleted)
+                    .Where(key => key.DateCreated.Date == DateTime.UtcNow.Date)
+                    .Select(key => new TaskViewModel
+                    {
+                        Id = key.Id,
+                        Name = key.Name,
+                        Description = key.Description,
+                        IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
+                        Priority = key.Priority.ToString(),
+                        DateCreated = key.DateCreated.ToString(CultureInfo.InvariantCulture)
+                    }).ToListAsync();
+
+                if (tasks is null || !tasks.Any())
+                {
+                    return new BaseResponse<IEnumerable<TaskViewModel>>
+                    {
+                        Description = "Task not found",
+                        StatusCode = StatusCode.TaskNotFound,
+                    };
+                }
+
+                return new BaseResponse<IEnumerable<TaskViewModel>>
+                {
+                    Data = tasks,
+                    StatusCode = StatusCode.Ok,
+                };
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[TaskService.CalculateCpmpletedTasksAsync]: {ex.Message}");
+                return new BaseResponse<IEnumerable<TaskViewModel>>
                 {
                     Description = ex.Message,
                     StatusCode = StatusCode.InvalidServerError,
