@@ -82,7 +82,10 @@
                             `<li class="list-group-item d-flex justify-content-between" style="background-color: #affabf">
                                 <div>
                                     <h6 class="my-0">Title: ${task.name}</h6>
-                                    <small class="text-muted">Description: ${task.description}</small>
+                                    <ul>
+                                        <li> <small class="text-muted">Description: ${task.description}</small> </li>
+                                        <li> <small class="text-muted">Priority: ${task.priority}</small> </li>
+                                    </ul>
                                 </div>
                             </li>
                             `
