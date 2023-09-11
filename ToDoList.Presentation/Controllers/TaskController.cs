@@ -19,6 +19,12 @@ namespace ToDoList.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> TaskHandler(TaskFilter taskFilter)
         {
+            var start = Request.Form["start"].FirstOrDefault();
+            var length = Request.Form["length"].FirstOrDefault();
+
+            var pageZile = length is not null ? int.Parse(length) : 0;
+            var skip = start is not null ? int.Parse(start) : 0;
+
             var response = await _taskService.GetAllTasksAsync(taskFilter);
             return Json(new { data = response.Data });
         }
