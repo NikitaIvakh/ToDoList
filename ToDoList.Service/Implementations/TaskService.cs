@@ -89,7 +89,10 @@ namespace ToDoList.Service.Implementations
                         Priority = key.Priority.GetDisplayName(),
                         IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
                         DateCreated = key.DateCreated.ToLongDateString(),
-                    }).ToListAsync();
+                    })
+                    .Skip(taskFilter.Skip)
+                    .Take(taskFilter.PageSize)
+                    .ToListAsync();
 
                 if (tasks is null || !tasks.Any())
                 {
@@ -253,7 +256,8 @@ namespace ToDoList.Service.Implementations
                         IsCompleted = key.IsCompleted == true ? "Task completed" : "Task not completed",
                         Priority = key.Priority.ToString(),
                         DateCreated = key.DateCreated.ToString(CultureInfo.InvariantCulture)
-                    }).ToListAsync();
+                    })
+                    .ToListAsync();
 
                 if (tasks is null || !tasks.Any())
                 {
