@@ -69,7 +69,10 @@
             ajax: {
                 url: '@Url.Action("TaskHandler")',
                 method: 'POST',
-                data: model,
+                data: {
+                    Name: $('input[name="nameTask"]').val(),
+                    Priority: $('#prioritySearch option:selected').val(),
+                }
             },
 
             columns: [
@@ -142,13 +145,6 @@
                 $('td button', nRow).on('click', handlerComplete); 
             }
         });
-
-        function model() {
-            return {
-                Name: $('input[name="nameTask"]').val(),
-                Priority: $('#prioritySearch option:selected').val(),
-            }
-        }
 
         $('#createTask').on('click', function (e) {
             e.preventDefault();
