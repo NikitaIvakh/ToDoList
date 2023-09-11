@@ -94,7 +94,7 @@ namespace ToDoList.Service.Implementations
                     .Take(taskFilter.PageSize)
                     .ToListAsync();
 
-                var count = _taskEntityRepository.GetAllElements().Count(key => !key.IsCompleted);
+                var count = await _taskEntityRepository.GetAllElements().CountAsync(key => !key.IsCompleted);
 
                 if (tasks is null || !tasks.Any())
                 {
@@ -117,7 +117,7 @@ namespace ToDoList.Service.Implementations
                 _logger.LogError(ex, $"[TaskService.GetAllTasks] : {ex.Message}");
                 return new DataTableResult
                 {
-                    Data = false,
+                    Data = null,
                     Total = 0,
                 };
             }

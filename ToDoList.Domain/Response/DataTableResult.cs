@@ -2,15 +2,15 @@
 {
     public class DataTableResult : IDataTableResult
     {
-        public object Data { get; set; }
-
         public int Total { get; set; }
+
+        public object Data { get; set; }
     }
 
     public interface IDataTableResult
     {
-        object Data { get; }
-
         int Total { get; }
+
+        object Data { get; }
     }
 }
