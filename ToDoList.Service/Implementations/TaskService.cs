@@ -73,7 +73,7 @@ namespace ToDoList.Service.Implementations
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<TaskViewModel>>> GetAllTasksAsync(TaskFilter taskFilter)
+        public async Task<IDataTableResult> GetAllTasksAsync(TaskFilter taskFilter)
         {
             try
             {
@@ -94,30 +94,31 @@ namespace ToDoList.Service.Implementations
                     .Take(taskFilter.PageSize)
                     .ToListAsync();
 
+                var count = _taskEntityRepository.GetAllElements().Count();
+
                 if (tasks is null || !tasks.Any())
                 {
-                    return new BaseResponse<IEnumerable<TaskViewModel>>
+                    return new DataTableResult
                     {
-                        Description = $"There are no tasks",
-                        StatusCode = StatusCode.ThereAreNoTasks,
+                        Data = false,
                     };
                 };
 
                 _logger.LogInformation($"[TaskService.GetAllTasks] elements received: {tasks.Count}");
-                return new BaseResponse<IEnumerable<TaskViewModel>>
+                return new DataTableResult
                 {
                     Data = tasks,
-                    StatusCode = StatusCode.Ok,
+                    Total = count,
                 };
             }
 
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"[TaskService.GetAllTasks] : {ex.Message}");
-                return new BaseResponse<IEnumerable<TaskViewModel>>
+                return new DataTableResult
                 {
-                    Description = ex.Message,
-                    StatusCode = StatusCode.InvalidServerError,
+                    Data = false,
+                    Total = 0,
                 };
             }
         }
