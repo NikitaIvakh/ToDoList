@@ -94,7 +94,7 @@ namespace ToDoList.Service.Implementations
                     .Take(taskFilter.PageSize)
                     .ToListAsync();
 
-                var count = _taskEntityRepository.GetAllElements().Count();
+                var count = _taskEntityRepository.GetAllElements().Count(key => !key.IsCompleted);
 
                 if (tasks is null || !tasks.Any())
                 {
