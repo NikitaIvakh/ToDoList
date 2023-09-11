@@ -25,6 +25,10 @@ namespace ToDoList.Presentation.Controllers
             var pageZile = length is not null ? int.Parse(length) : 0;
             var skip = start is not null ? int.Parse(start) : 0;
 
+            taskFilter.Skip = skip;
+            taskFilter.PageSize = pageZile;
+
+
             var response = await _taskService.GetAllTasksAsync(taskFilter);
             return Json(new { data = response.Data });
         }
