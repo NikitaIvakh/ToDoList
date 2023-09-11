@@ -30,7 +30,7 @@ namespace ToDoList.Presentation.Controllers
 
 
             var response = await _taskService.GetAllTasksAsync(taskFilter);
-            return Json(new { data = response.Data });
+            return Json(new { recordsTotal = response.Total, data = response.Data });
         }
 
         [HttpGet]
